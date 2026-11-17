@@ -1,0 +1,336 @@
+
+<div class="pagina-supervisores">
+
+  <header class="cabecera">
+    <div>
+      <h1>Gestión de Supervisores PPP</h1>
+      <p>CU012 — Asignar supervisores</p>
+    </div>
+
+    <button type="button" (click)="volver()">
+      Volver al inicio
+    </button>
+  </header>
+
+  @if (error) {
+    <p class="error" role="alert">{{ error }}</p>
+  }
+
+  @if (mensaje) {
+    <p class="exito" role="status">{{ mensaje }}</p>
+  }
+
+  <!-- ======================================
+       REGISTRAR SUPERVISOR
+  ====================================== -->
+
+  <section class="panel">
+
+    <h2>Registrar supervisor</h2>
+
+    <div class="formulario">
+
+      <div>
+        <label for="nombres">Nombres</label>
+        <input
+          id="nombres"
+          [(ngModel)]="nuevo.nombres"
+          maxlength="80"
+          placeholder="Nombres del supervisor"
+        />
+      </div>
+
+      <div>
+        <label for="apellidos">Apellidos</label>
+        <input
+          id="apellidos"
+          [(ngModel)]="nuevo.apellidos"
+          maxlength="80"
+          placeholder="Apellidos del supervisor"
+        />
+      </div>
+
+      <div>
+        <label for="correo">Correo</label>
+        <input
+          id="correo"
+          type="email"
+          [(ngModel)]="nuevo.correo"
+          maxlength="120"
+          placeholder="supervisor@ejemplo.com"
+        />
+      </div>
+
+      <div>
+        <label for="telefono">Teléfono</label>
+        <input
+          id="telefono"
+          [(ngModel)]="nuevo.telefono"
+          maxlength="25"
+          placeholder="Número de contacto"
+        />
+      </div>
+
+      <div>
+        <label for="tipo">Tipo de supervisor</label>
+        <select
+          id="tipo"
+          [(ngModel)]="nuevo.tipo">
+
+          <option value="ACADEMICO">
+            Supervisor académico
+          </option>
+
+          <option value="EMPRESARIAL">
+            Supervisor empresarial
+          </option>
+
+        </select>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="principal"
+      [disabled]="procesando"
+      (click)="registrarSupervisor()">
+
+      {{
+        procesando
+          ? 'Guardando...'
+          : 'Registrar supervisor'
+      }}
+
+    </button>
+
+  </section>
+
+  <!-- ======================================
+       LISTAR SUPERVISORES
+  ====================================== -->
+
+  <section class="panel">
+
+    <h2>Supervisores registrados</h2>
+
+    @if (cargando) {
+
+      <p>Cargando supervisores...</p>
+
+    } @else if (supervisores.length === 0) {
+
+      <p>Todavía no hay supervisores registrados.</p>
+
+    } @else {
+
+      <div class="tabla-contenedor">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Supervisor</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Contacto</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (s of supervisores; track s.idSupervisor) {
+
+              <tr>
+
+                <td>{{ s.idSupervisor }}</td>
+
+                <td>
+                  {{ s.nombres }} {{ s.apellidos }}
+                </td>
+
+                <td>
+                  {{
+                    s.tipo === 'ACADEMICO'
+                      ? 'Académico'
+                      : 'Empresarial'
+                  }}
+                </td>
+
+                <td>{{ s.estado }}</td>
+
+                <td>
+                  <a [href]="'mailto:' + s.correo">
+                    {{ s.correo }}
+                  </a>
+
+                  @if (s.telefono) {
+                    <p>{{ s.telefono }}</p>
+                  }
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </section>
+
+  <!-- ======================================
+       ASIGNAR SUPERVISORES
+  ====================================== -->
+
+  <section class="panel">
+
+    <h2>Asignar supervisores a una solicitud</h2>
+
+    <p>
+      Selecciona una solicitud aprobada y sus
+      supervisores correspondientes.
+    </p>
+
+    <div class="formulario">
+
+      <div>
+        <label for="solicitud">
+          Solicitud PPP aprobada
+        </label>
+
+        <select
+          id="solicitud"
+          [(ngModel)]="idSolicitud"
+          [disabled]="procesando"
+          (ngModelChange)="seleccionarSolicitud()">
+
+          <option [ngValue]="null">
+            Seleccione una solicitud
+          </option>
+
+          @for (s of solicitudes; track s.idSolicitud) {
+
+            <option [ngValue]="s.idSolicitud">
+              Solicitud N.º {{ s.idSolicitud }}
+              — Empresa {{ s.idEmpresa }}
+            </option>
+
+          }
+
+        </select>
+      </div>
+
+      <div>
+        <label for="academico">
+          Supervisor académico
+        </label>
+
+        <select
+          id="academico"
+          [(ngModel)]="idAcademico"
+          [disabled]="procesando">
+
+          <option [ngValue]="null">
+            Sin seleccionar
+          </option>
+
+          @for (
+            s of supervisoresPorTipo('ACADEMICO');
+            track s.idSupervisor
+          ) {
+
+            <option [ngValue]="s.idSupervisor">
+              {{ s.nombres }} {{ s.apellidos }}
+            </option>
+
+          }
+
+        </select>
+      </div>
+
+      <div>
+        <label for="empresarial">
+          Supervisor empresarial
+        </label>
+
+        <select
+          id="empresarial"
+          [(ngModel)]="idEmpresarial"
+          [disabled]="procesando">
+
+          <option [ngValue]="null">
+            Sin seleccionar
+          </option>
+
+          @for (
+            s of supervisoresPorTipo('EMPRESARIAL');
+            track s.idSupervisor
+          ) {
+
+            <option [ngValue]="s.idSupervisor">
+              {{ s.nombres }} {{ s.apellidos }}
+            </option>
+
+          }
+
+        </select>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="principal"
+      [disabled]="
+        procesando ||
+        idSolicitud === null
+      "
+      (click)="asignarSupervisores()">
+
+      {{
+        procesando
+          ? 'Guardando asignación...'
+          : 'Guardar asignación'
+      }}
+
+    </button>
+
+    @if (asignacion) {
+
+      <div class="resultado">
+
+        <h3>Asignación registrada</h3>
+
+        <p>
+          <strong>Solicitud:</strong>
+          {{ asignacion.idSolicitud }}
+        </p>
+
+        <p>
+          <strong>Supervisor académico ID:</strong>
+          {{ asignacion.idSupervisorAcademico ?? 'No asignado' }}
+        </p>
+
+        <p>
+          <strong>Supervisor empresarial ID:</strong>
+          {{ asignacion.idSupervisorEmpresarial ?? 'No asignado' }}
+        </p>
+
+        <p>
+          <strong>Fecha de asignación:</strong>
+          {{ asignacion.fechaAsignacion }}
+        </p>
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

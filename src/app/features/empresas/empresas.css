@@ -1,0 +1,108 @@
+
+.pagina {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f3f6fb;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+h1, h2, h3 {
+  color: #123f76;
+}
+
+.filtros {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+button {
+  padding: 11px 17px;
+  background: #145595;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0c3764;
+}
+
+.filtros button {
+  background: #dce7f4;
+  color: #123f76;
+}
+
+.filtros button.activo {
+  background: #145595;
+  color: white;
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit, minmax(280px, 1fr)
+  );
+  gap: 18px;
+}
+
+.empresa,
+.detalle,
+.vacio {
+  background: white;
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px #00000010;
+}
+
+.titulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.etiqueta {
+  background: #dcfce7;
+  color: #166534;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.acciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.secundario {
+  background: #64748b;
+}
+
+.detalle {
+  margin-top: 25px;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+@media (max-width: 600px) {
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

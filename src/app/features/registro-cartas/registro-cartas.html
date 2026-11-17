@@ -1,0 +1,756 @@
+
+<div class="pagina">
+
+  <!-- ==========================================
+       ENCABEZADO
+  ========================================== -->
+
+  <header class="encabezado">
+
+    <div>
+      <h1>Registro de Cartas PPP</h1>
+      <p>Panel del Estudiante</p>
+    </div>
+
+    <button
+      type="button"
+      (click)="volver()">
+      Volver al inicio
+    </button>
+
+  </header>
+
+  <!-- ==========================================
+       MENSAJES DEL SISTEMA
+  ========================================== -->
+
+  @if (error) {
+    <p class="error" role="alert">
+      {{ error }}
+    </p>
+  }
+
+  @if (mensaje) {
+    <p class="exito" role="status">
+      {{ mensaje }}
+    </p>
+  }
+
+  <!-- ==========================================
+       CU09 - CONSULTAR CARTAS RECIBIDAS
+  ========================================== -->
+
+  <section class="panel">
+
+    <h2>Cartas de presentación recibidas</h2>
+
+    @if (cartas.length === 0) {
+
+      <p>
+        No tienes cartas enviadas por Secretaría.
+      </p>
+
+    } @else {
+
+      @for (carta of cartas; track carta.idCarta) {
+
+        <article class="carta">
+
+          <!-- ENCABEZADO DE CARTA -->
+
+          <div class="carta-encabezado">
+
+            <h3>
+              Carta N.º {{ carta.idCarta }}
+            </h3>
+
+            <span class="estado-carta">
+              {{ carta.estado }}
+            </span>
+
+          </div>
+
+          <!-- INFORMACION -->
+
+          <div class="carta-datos">
+
+            <p>
+              <strong>Solicitud:</strong>
+              {{ carta.idSolicitud }}
+            </p>
+
+            <p>
+              <strong>Fecha de envío:</strong>
+              {{ carta.fechaEnvio }}
+            </p>
+
+          </div>
+
+          <!-- VISTA PREVIA DE LA CARTA -->
+
+          <details class="vista-carta">
+
+            <summary>
+              Ver contenido de la carta
+            </summary>
+
+            <div class="documento-vista">
+
+              <div class="documento-cabecera">
+
+                <span class="documento-etiqueta">
+                  DOCUMENTO DE PRESENTACIÓN
+                </span>
+
+                <span class="documento-numero">
+                  Carta N.º {{ carta.idCarta }}
+                </span>
+
+              </div>
+
+              <pre class="contenido-carta">{{ carta.contenido }}</pre>
+
+              <div class="documento-pie">
+
+                <span>
+                  Universidad Peruana Unión
+                </span>
+
+                <span>
+                  Documento consultado desde el Sistema PPP
+                </span>
+
+              </div>
+
+            </div>
+
+          </details>
+
+          <!-- ==================================
+               CU09 - DESCARGAR PDF DE PRUEBA
+          ================================== -->
+
+          <button
+            type="button"
+            class="descargar-carta"
+            [disabled]="
+              carta.estado !== 'ENVIADA' ||
+              !carta.contenido ||
+              descargandoCartaId !== null
+            "
+            (click)="descargarCarta(carta)">
+
+            {{
+              descargandoCartaId === carta.idCarta
+                ? 'Generando PDF...'
+                : 'Descargar PDF de prueba'
+            }}
+
+          </button>
+
+        </article>
+
+      }
+
+    }
+
+  </section>
+
+  <!-- ==========================================
+       SELECCIONAR SOLICITUD APROBADA
+  ========================================== -->
+
+  <section class="panel">
+
+    <h2>Seleccionar solicitud aprobada</h2>
+
+    @if (cargando) {
+
+      <p>
+        Cargando solicitudes...
+      </p>
+
+    } @else {
+
+      <label for="solicitud">
+        Solicitud PPP
+      </label>
+
+      <select
+        id="solicitud"
+        name="solicitud"
+        [(ngModel)]="idSolicitud"
+        (ngModelChange)="seleccionarSolicitud()">
+
+        <option [ngValue]="null">
+          Seleccione una solicitud
+        </option>
+
+        @for (s of solicitudes; track s.idSolicitud) {
+
+          <option [ngValue]="s.idSolicitud">
+            Solicitud N.º {{ s.idSolicitud }}
+            — Empresa {{ s.idEmpresa }}
+          </option>
+
+        }
+
+      </select>
+
+    }
+
+  </section>
+
+  <!-- ==========================================
+       DOCUMENTOS Y CONVENIOS
+  ========================================== -->
+
+  @if (idSolicitud !== null) {
+
+    <!-- ======================================
+         DOCUMENTOS REGISTRADOS
+    ====================================== -->
+
+    <section class="panel">
+
+      <h2>Documentos registrados</h2>
+
+      @if (cargandoDocumentos) {
+
+        <p>
+          Cargando documentos...
+        </p>
+
+      } @else if (documentos.length === 0) {
+
+        <p>
+          No existen documentos registrados para esta solicitud.
+        </p>
+
+      } @else {
+
+        <div class="documentos">
+
+          @for (doc of documentos; track doc.idDocumento) {
+
+            <article class="documento">
+
+              <!-- TIPO DE DOCUMENTO -->
+
+              <h3>
+                {{
+                  doc.tipoDocumento === 'ACEPTACION'
+                    ? 'Carta de aceptación'
+                    : doc.tipoDocumento === 'CONVENIO'
+                    ? 'Documento del convenio'
+                    : doc.tipoDocumento
+                }}
+              </h3>
+
+              <!-- NOMBRE DEL ARCHIVO -->
+
+              <p>
+                <strong>Archivo:</strong>
+                {{ doc.nombreArchivo }}
+              </p>
+
+              <!-- FECHA DE REGISTRO -->
+
+              <p>
+                <strong>Registrado:</strong>
+                {{ doc.fechaRegistro }}
+              </p>
+
+              <!-- ABRIR EN GOOGLE DRIVE -->
+
+              <a
+                [href]="doc.urlDocumento"
+                target="_blank"
+                rel="noopener noreferrer">
+                Abrir documento en Google Drive
+              </a>
+
+              <!-- ==================================
+                   CU010 - DESCARGAR CARTA
+                   DE ACEPTACION DESDE PPP
+              ================================== -->
+
+              @if (doc.tipoDocumento === 'ACEPTACION') {
+
+                <div
+                  class="acciones-descarga"
+                  style="margin-top: 12px;">
+
+                  <button
+                    type="button"
+                    [disabled]="descargandoDocumentoId !== null"
+                    (click)="descargarCartaAceptacion(doc)">
+
+                    {{
+                      descargandoDocumentoId === doc.idDocumento
+                        ? 'Descargando PDF...'
+                        : 'Descargar carta de aceptación'
+                    }}
+
+                  </button>
+
+                  <p class="nota">
+                    La descarga se realiza mediante el
+                    sistema PPP-UPeU y requiere una
+                    sesión de estudiante válida.
+                  </p>
+
+                </div>
+
+              }
+
+              <!-- ==================================
+                   CU010 - VISTA PREVIA DEL DOCUMENTO
+              ================================== -->
+
+              <div
+                class="acciones-documento"
+                style="margin-top: 14px;">
+
+                <button
+                  type="button"
+                  [attr.aria-expanded]="
+                    documentoEnVista === doc.idDocumento
+                  "
+                  (click)="mostrarVistaPrevia(doc)">
+
+                  {{
+                    documentoEnVista === doc.idDocumento
+                      ? 'Cerrar vista previa'
+                      : 'Ver vista previa'
+                  }}
+
+                </button>
+
+                <!-- ==================================
+                     ESTADO DE CARGA
+                ================================== -->
+
+                @if (
+                  vistaPreviaCargando &&
+                  documentoEnVista === doc.idDocumento
+                ) {
+
+                  <p class="nota" role="status">
+                    Cargando vista previa segura del PDF...
+                  </p>
+
+                }
+
+              </div>
+
+              <!-- ==================================
+                   VISOR INTEGRADO DEL DOCUMENTO
+              ================================== -->
+
+              @if (
+                documentoEnVista === doc.idDocumento &&
+                urlVistaPrevia
+              ) {
+
+                <div
+                  class="vista-previa-drive"
+                  style="margin-top: 18px;">
+
+                  <h4>
+                    {{
+                      doc.tipoDocumento === 'ACEPTACION'
+                        ? 'Vista previa de la carta de aceptación'
+                        : 'Vista previa del documento'
+                    }}
+                  </h4>
+
+                  <p>
+                    {{ doc.nombreArchivo }}
+                  </p>
+
+                  <!-- ==================================
+                       VISUALIZADOR PDF
+                  ================================== -->
+
+                  <iframe
+                    [src]="urlVistaPrevia"
+                    width="100%"
+                    height="520"
+                    loading="lazy"
+                    title="Vista previa del documento PPP"
+                    style="
+                      display: block;
+                      width: 100%;
+                      border: 1px solid #ccc;
+                      border-radius: 8px;
+                      background: #fff;
+                    ">
+                  </iframe>
+
+                  <!-- ==================================
+                       MENSAJES SEGUN TIPO DE DOCUMENTO
+                  ================================== -->
+
+                  @if (doc.tipoDocumento === 'ACEPTACION') {
+
+                    <p class="nota">
+                      Carta obtenida a través de tu sesión autenticada
+                      de PPP-UPeU, sin requerir acceso público a Drive.
+                    </p>
+
+                  } @else {
+
+                    <p class="nota">
+                      La vista previa depende de los permisos
+                      del documento en Google Drive.
+                    </p>
+
+                    <p class="nota">
+                      Si no puedes visualizarlo aquí,
+                      utiliza el enlace para abrirlo en Google Drive.
+                    </p>
+
+                  }
+
+                </div>
+
+              }
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+    </section>
+
+    <!-- ======================================
+         REGISTRAR DOCUMENTO PPP
+    ====================================== -->
+
+    <section class="panel">
+
+      <h2>Registrar documento PPP</h2>
+
+      <!-- TIPO DE DOCUMENTO -->
+
+      <label for="tipo">
+        Tipo de documento
+      </label>
+
+      <select
+        id="tipo"
+        name="tipoDocumento"
+        [(ngModel)]="tipoDocumento"
+        [disabled]="procesando">
+
+        <option value="ACEPTACION">
+          Carta de aceptación
+        </option>
+
+        <option value="CONVENIO">
+          Documento del convenio
+        </option>
+
+      </select>
+
+      <!-- ======================================
+           CU010 - SUBIR PDF A GOOGLE DRIVE
+      ====================================== -->
+
+      <div
+        class="subida-pdf"
+        style="margin-top: 20px; margin-bottom: 20px;">
+
+        <h3>
+          Subir PDF directamente a Google Drive
+        </h3>
+
+        <p>
+          Selecciona desde tu computadora la carta de aceptación
+          o el documento de convenio correspondiente a
+          la solicitud PPP aprobada.
+        </p>
+
+        <!-- SELECCIONAR ARCHIVO -->
+
+        <label for="archivoPdf">
+          Seleccionar archivo PDF
+        </label>
+
+        <input
+          #archivoPdfInput
+          id="archivoPdf"
+          name="archivoPdf"
+          type="file"
+          accept=".pdf,application/pdf"
+          [disabled]="procesando"
+          (change)="seleccionarPdf($event)"
+        />
+
+        <!-- MOSTRAR ARCHIVO SELECCIONADO -->
+
+        @if (archivoPdf) {
+
+          <div
+            class="archivo-seleccionado"
+            style="margin-top: 12px;">
+
+            <p>
+              <strong>Archivo seleccionado:</strong>
+              {{ archivoPdf.name }}
+            </p>
+
+            <p>
+              <strong>Tamaño:</strong>
+              {{ (archivoPdf.size / 1024 / 1024).toFixed(2) }} MB
+            </p>
+
+            <button
+              type="button"
+              [disabled]="procesando"
+              (click)="limpiarPdfSeleccionado()">
+              Quitar archivo
+            </button>
+
+          </div>
+
+        }
+
+        <!-- BOTON DE SUBIDA -->
+
+        <div style="margin-top: 16px;">
+
+          <button
+            type="button"
+            [disabled]="
+              procesando ||
+              cargandoDocumentos ||
+              !archivoPdf
+            "
+            (click)="subirPdfGoogleDrive()">
+
+            {{
+              procesando
+                ? 'Subiendo archivo...'
+                : 'Subir PDF a Google Drive'
+            }}
+
+          </button>
+
+        </div>
+
+        <!-- INFORMACION -->
+
+        <p class="nota">
+          Se permiten únicamente archivos PDF
+          de hasta 5 MB.
+        </p>
+
+        <p class="nota">
+          El documento se enviará a Google Drive
+          y se registrará en la base de datos Oracle.
+          La solicitud PPP debe estar aprobada
+          y pertenecer al estudiante autenticado.
+        </p>
+
+      </div>
+
+      <hr />
+
+      <!-- ======================================
+           REGISTRAR DOCUMENTO MEDIANTE ENLACE
+      ====================================== -->
+
+      <div
+        class="registro-enlace"
+        style="margin-top: 20px;">
+
+        <h3>
+          Registrar un documento mediante enlace
+        </h3>
+
+        <p class="nota">
+          Utiliza esta opción si el archivo ya
+          existe en Google Drive y solo deseas
+          registrar su enlace en el sistema.
+        </p>
+
+        <!-- NOMBRE DE ARCHIVO -->
+
+        <label for="archivo">
+          Nombre del archivo
+        </label>
+
+        <input
+          id="archivo"
+          name="nombreArchivo"
+          type="text"
+          [(ngModel)]="nombreArchivo"
+          [disabled]="procesando"
+          placeholder="Ejemplo: CARTA_ACEPTACION.pdf"
+        />
+
+        <!-- ENLACE DE GOOGLE DRIVE -->
+
+        <label for="driveId">
+          Enlace del documento Google Drive
+        </label>
+
+        <input
+          id="driveId"
+          name="driveFileId"
+          type="text"
+          [(ngModel)]="driveFileId"
+          [disabled]="procesando"
+          placeholder="Pega aquí el enlace de Google Drive"
+        />
+
+        <!-- REGISTRAR DOCUMENTO -->
+
+        <button
+          type="button"
+          [disabled]="procesando || cargandoDocumentos"
+          (click)="registrarDocumento()">
+
+          {{
+            procesando
+              ? 'Procesando...'
+              : 'Registrar documento mediante enlace'
+          }}
+
+        </button>
+
+        <p class="nota">
+          Esta opción registra el enlace,
+          pero no sube el archivo a Google Drive.
+        </p>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================
+         CU011 - DATOS DEL CONVENIO PPP
+    ====================================== -->
+
+    <section class="panel">
+
+      <h2>Datos del convenio PPP</h2>
+
+      @if (convenio) {
+
+        <div class="convenio">
+
+          <p>
+            <strong>Convenio N.º:</strong>
+            {{ convenio.idConvenio }}
+          </p>
+
+          <p>
+            <strong>Cargo:</strong>
+            {{ convenio.cargo }}
+          </p>
+
+          <p>
+            <strong>Horario:</strong>
+            {{ convenio.horario }}
+          </p>
+
+          <p>
+            <strong>Pago:</strong>
+            {{ convenio.pago }}
+          </p>
+
+          <p>
+            <strong>Inicio:</strong>
+            {{ convenio.fechaInicio }}
+          </p>
+
+          <p>
+            <strong>Fin:</strong>
+            {{ convenio.fechaFin }}
+          </p>
+
+        </div>
+
+      } @else {
+
+        <label for="cargo">
+          Cargo
+        </label>
+
+        <input
+          id="cargo"
+          name="cargo"
+          [(ngModel)]="datosConvenio.cargo"
+          placeholder="Cargo del practicante"
+        />
+
+        <label for="horario">
+          Horario
+        </label>
+
+        <input
+          id="horario"
+          name="horario"
+          [(ngModel)]="datosConvenio.horario"
+          placeholder="Horario de prácticas"
+        />
+
+        <label for="pago">
+          Información del pago
+        </label>
+
+        <input
+          id="pago"
+          name="pago"
+          [(ngModel)]="datosConvenio.pago"
+          placeholder="Remuneración o no remunerado"
+        />
+
+        <label for="fechaInicio">
+          Fecha de inicio
+        </label>
+
+        <input
+          id="fechaInicio"
+          name="fechaInicio"
+          type="date"
+          [(ngModel)]="datosConvenio.fechaInicio"
+        />
+
+        <label for="fechaFin">
+          Fecha de finalización
+        </label>
+
+        <input
+          id="fechaFin"
+          name="fechaFin"
+          type="date"
+          [(ngModel)]="datosConvenio.fechaFin"
+        />
+
+        <button
+          type="button"
+          [disabled]="procesando"
+          (click)="registrarConvenio()">
+
+          {{
+            procesando
+              ? 'Procesando...'
+              : 'Guardar convenio'
+          }}
+
+        </button>
+
+      }
+
+    </section>
+
+  }
+
+</div>

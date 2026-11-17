@@ -1,0 +1,136 @@
+
+<div class="pagina">
+
+  <header class="encabezado">
+    <div>
+      <h1>Validación de Solicitudes PPP</h1>
+      <p>Panel del Coordinador de Prácticas Preprofesionales</p>
+    </div>
+    <button (click)="volver()">Volver al inicio</button>
+  </header>
+
+  @if (mensaje) {
+    <p class="exito">{{ mensaje }}</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  <section class="panel">
+    <h2>Solicitudes registradas</h2>
+
+    @if (cargando) {
+      <p>Cargando solicitudes...</p>
+    } @else if (solicitudes.length === 0) {
+      <p>No existen solicitudes registradas.</p>
+    } @else {
+
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Estudiante</th>
+              <th>Empresa</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (s of solicitudes; track s.idSolicitud) {
+              <tr>
+                <td>{{ s.idSolicitud }}</td>
+                <td>{{ s.idUsuario }}</td>
+                <td>{{ s.idEmpresa }}</td>
+                <td>
+                  <span class="estado"
+                    [class.aprobada]="s.estado === 'APROBADA'"
+                    [class.rechazada]="s.estado === 'RECHAZADA'"
+                    [class.pendiente]="s.estado === 'PENDIENTE'">
+                    {{ s.estado }}
+                  </span>
+                </td>
+                <td>
+                  <button (click)="seleccionar(s)">
+                    Ver detalles
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    }
+  </section>
+
+  @if (seleccionada) {
+    <section class="panel">
+
+      <h2>
+        Solicitud N.º {{ seleccionada.idSolicitud }}
+      </h2>
+
+      @if (detalle) {
+        <div class="datos">
+          <p><strong>Estudiante:</strong>
+            {{ detalle.nombres }} {{ detalle.apellidos }}
+          </p>
+
+          <p><strong>DNI:</strong> {{ detalle.dni }}</p>
+
+          <p><strong>Correo:</strong> {{ detalle.correo }}</p>
+
+          <p><strong>Empresa:</strong> {{ detalle.empresa }}</p>
+
+          <p><strong>Estado:</strong> {{ detalle.estado }}</p>
+
+          <p><strong>Fecha de solicitud:</strong>
+            {{ detalle.fechaSolicitud }}
+          </p>
+        </div>
+
+        @if (seleccionada.estado === 'PENDIENTE') {
+          <label for="comentario">Comentario del coordinador</label>
+
+          <textarea
+            id="comentario"
+            name="comentario"
+            [(ngModel)]="comentario"
+            rows="4"
+            maxlength="500"
+            placeholder="Escriba una observación">
+          </textarea>
+
+          <div class="acciones">
+            <button
+              class="aprobar"
+              [disabled]="procesando"
+              (click)="validar('APROBADA')">
+              Aprobar solicitud
+            </button>
+
+            <button
+              class="rechazar"
+              [disabled]="procesando"
+              (click)="validar('RECHAZADA')">
+              Rechazar solicitud
+            </button>
+          </div>
+        } @else {
+          <p><strong>Comentario:</strong>
+            {{ detalle.comentario || 'Sin comentarios' }}
+          </p>
+
+          <p>Esta solicitud ya fue revisada.</p>
+        }
+      } @else {
+        <p>Cargando detalles...</p>
+      }
+
+    </section>
+  }
+
+</div>

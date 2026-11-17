@@ -1,0 +1,95 @@
+
+.pagina {
+  background: #f3f6fb;
+  min-height: 100vh;
+  padding: 35px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+h1, h2 {
+  color: #123f76;
+}
+
+.panel {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 12px #00000010;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background: #edf3fa;
+  color: #123f76;
+}
+
+button {
+  padding: 11px 17px;
+  background: #145595;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+input {
+  display: block;
+  width: 100%;
+  max-width: 450px;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.acciones {
+  margin: 20px 0;
+}
+
+a {
+  display: inline-block;
+  color: #145595;
+  margin: 10px 15px 10px 0;
+}
+
+.exito {
+  color: #166534;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+@media (max-width: 600px) {
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

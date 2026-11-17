@@ -1,0 +1,117 @@
+
+<div class="pagina">
+
+  <header class="encabezado">
+    <div>
+      <h1>Documentos Google Drive PPP</h1>
+      <p>Panel del Coordinador de Prácticas Preprofesionales</p>
+    </div>
+
+    <button (click)="volver()">Volver al inicio</button>
+  </header>
+
+  @if (mensaje) {
+    <p class="exito">{{ mensaje }}</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  <section class="panel">
+    <h2>Solicitudes aprobadas</h2>
+
+    @if (cargando) {
+      <p>Cargando solicitudes...</p>
+    } @else if (solicitudes.length === 0) {
+      <p>No hay solicitudes aprobadas.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>ID solicitud</th>
+            <th>Estudiante</th>
+            <th>Empresa</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (s of solicitudes; track s.idSolicitud) {
+            <tr>
+              <td>{{ s.idSolicitud }}</td>
+              <td>{{ s.idUsuario }}</td>
+              <td>{{ s.idEmpresa }}</td>
+              <td>{{ s.estado }}</td>
+              <td>
+                <button (click)="seleccionar(s)">
+                  Ver documento
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+
+  @if (seleccionada) {
+    <section class="panel">
+
+      <h2>Solicitud N.º {{ seleccionada.idSolicitud }}</h2>
+
+      @if (consultando) {
+        <p>Consultando documento...</p>
+      } @else if (documento) {
+
+        <p><strong>Documento registrado</strong></p>
+        <p>ID Drive: {{ documento.driveFileId }}</p>
+        <p>Fecha: {{ documento.fechaRegistro }}</p>
+
+        <a
+          [href]="documento.urlDocumento"
+          target="_blank"
+          rel="noopener noreferrer">
+          Abrir documento en Google Drive
+        </a>
+
+        <div class="acciones">
+          <button (click)="obtenerVistaPrevia()">
+            Obtener vista previa
+          </button>
+        </div>
+
+        @if (urlVistaPrevia) {
+          <a
+            [href]="urlVistaPrevia"
+            target="_blank"
+            rel="noopener noreferrer">
+            Ver documento en Google Drive
+          </a>
+        }
+
+      } @else {
+
+        <p>Esta solicitud todavía no tiene documento vinculado.</p>
+
+        <label for="driveId">ID del archivo Google Drive</label>
+
+        <input
+          id="driveId"
+          type="text"
+          [(ngModel)]="driveFileId"
+          placeholder="Pega el ID del archivo"
+        />
+
+        <button
+          [disabled]="guardando || !driveFileId.trim()"
+          (click)="guardar()">
+          {{ guardando ? 'Guardando...' : 'Guardar documento' }}
+        </button>
+
+      }
+    </section>
+  }
+
+</div>

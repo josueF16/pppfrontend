@@ -1,0 +1,101 @@
+
+<div class="pagina">
+
+  <header class="encabezado">
+    <div>
+      <h1>Solicitudes de Prácticas PPP</h1>
+      <p>Registra y consulta tus solicitudes.</p>
+    </div>
+
+    <button (click)="volver()">Volver al inicio</button>
+  </header>
+
+  <section class="panel">
+    <h2>Nueva solicitud PPP</h2>
+
+    <form (ngSubmit)="registrar()">
+
+      <label for="empresa">Seleccionar empresa</label>
+
+      <select
+        id="empresa"
+        name="empresa"
+        [(ngModel)]="idEmpresa"
+        required>
+
+        <option [ngValue]="null">
+          Seleccione una empresa
+        </option>
+
+        @for (empresa of empresas; track empresa.idEmpresa) {
+          <option [ngValue]="empresa.idEmpresa">
+            {{ empresa.nombre }}
+          </option>
+        }
+
+      </select>
+
+      <button
+        type="submit"
+        [disabled]="idEmpresa === null || guardando">
+        {{ guardando ? 'Registrando...' : 'Enviar solicitud' }}
+      </button>
+
+    </form>
+
+    @if (mensaje) {
+      <p class="exito">{{ mensaje }}</p>
+    }
+
+    @if (error) {
+      <p class="error">{{ error }}</p>
+    }
+  </section>
+
+  <section class="panel">
+    <h2>Mis solicitudes</h2>
+
+    @if (cargando) {
+      <p>Cargando solicitudes...</p>
+    } @else if (solicitudes.length === 0) {
+      <p>No tienes solicitudes registradas.</p>
+    } @else {
+
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Empresa</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th>Comentario</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (s of solicitudes; track s.idSolicitud) {
+              <tr>
+                <td>{{ s.idSolicitud }}</td>
+                <td>{{ nombreEmpresa(s.idEmpresa) }}</td>
+                <td>{{ s.fechaSolicitud }}</td>
+                <td>
+                  <span
+                    class="estado"
+                    [class.aprobada]="s.estado === 'APROBADA'"
+                    [class.rechazada]="s.estado === 'RECHAZADA'"
+                    [class.pendiente]="s.estado === 'PENDIENTE'">
+                    {{ s.estado }}
+                  </span>
+                </td>
+                <td>{{ s.comentario || 'Sin comentarios' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    }
+  </section>
+
+</div>

@@ -1,0 +1,48 @@
+
+<!-- ======================================
+     CONTENIDO PRINCIPAL DE ANGULAR
+====================================== -->
+
+<router-outlet></router-outlet>
+
+<!-- ======================================
+     AVISO GLOBAL DE EXPIRACIÓN DE SESIÓN
+====================================== -->
+
+@if (auth.avisoExpiracion()) {
+
+  <div
+    class="aviso-sesion-global"
+    role="alert"
+    aria-live="assertive">
+
+    <!-- ICONO -->
+    <div
+      class="aviso-sesion-icono"
+      aria-hidden="true">
+      ⚠️
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="aviso-sesion-contenido">
+
+      <strong class="aviso-sesion-titulo">
+        Tu sesión está por expirar
+      </strong>
+
+      <p>
+        Tiempo restante:
+        <strong>{{ auth.tiempoRestante }}</strong>.
+      </p>
+
+      <p>
+        Guarda tu trabajo.
+        Cuando expire la sesión,
+        deberás iniciar sesión nuevamente.
+      </p>
+
+    </div>
+
+  </div>
+
+}

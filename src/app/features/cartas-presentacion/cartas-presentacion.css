@@ -1,0 +1,421 @@
+
+/* ==========================================
+   CARTAS DE PRESENTACIÓN PPP - UPeU
+========================================== */
+
+/* PÁGINA PRINCIPAL */
+
+.pagina {
+  min-height: 100vh;
+  padding: 35px;
+  box-sizing: border-box;
+  background: #f3f6fb;
+  color: #17324d;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ENCABEZADO */
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.encabezado h1 {
+  margin: 0 0 10px;
+}
+
+.encabezado p {
+  margin: 0;
+}
+
+h1, h2, h3 {
+  color: #123f76;
+}
+
+/* PANELES */
+
+.panel {
+  background: #ffffff;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px #00000010;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.texto-ayuda {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+/* TABLAS */
+
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  text-align: left;
+  padding: 13px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background: #edf3fa;
+  color: #123f76;
+}
+
+.estado-aprobada {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* FORMULARIOS */
+
+label {
+  display: block;
+  font-weight: 700;
+  margin: 15px 0 8px;
+}
+
+select,
+input,
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 650px;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font: inherit;
+}
+
+.contenido {
+  max-width: 100%;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+/* BOTONES */
+
+button {
+  background: #145595;
+  color: #ffffff;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #0c427a;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* DETALLE DE CARTA */
+
+.detalle-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.detalle-encabezado h2 {
+  margin-bottom: 10px;
+}
+
+.datos-carta {
+  margin: 16px 0 22px;
+}
+
+.datos-carta p {
+  margin: 9px 0;
+}
+
+.estado-carta {
+  padding: 8px 15px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.estado-borrador {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.estado-enviada {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.estado-cancelada {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.estado-cancelada-texto {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* ACCIONES */
+
+.acciones {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.enviar {
+  background: #15803d;
+}
+
+.enviar:hover:not(:disabled) {
+  background: #166534;
+}
+
+.cancelar {
+  background: #b91c1c;
+}
+
+.cancelar:hover:not(:disabled) {
+  background: #991b1b;
+}
+
+.exito {
+  color: #166534;
+  font-weight: 600;
+}
+
+.error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* ==========================================
+   NOTIFICACIONES FLOTANTES
+========================================== */
+
+.notificacion-flotante {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  padding: 17px 16px;
+
+  background: #123f32;
+  color: #ffffff;
+
+  border: 1px solid #35a778;
+  border-left: 5px solid #4ade80;
+  border-radius: 12px;
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+
+  animation: entrarNotificacion 0.3s ease-out;
+}
+
+/* ICONO */
+
+.notificacion-icono {
+  flex-shrink: 0;
+  font-size: 21px;
+}
+
+/* TEXTO */
+
+.notificacion-contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.notificacion-contenido strong {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.notificacion-contenido span {
+  color: #dcfce7;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* NOTIFICACIÓN DE ERROR */
+
+.notificacion-error {
+  background: #491c26;
+  border-color: #dd5368;
+  border-left-color: #fb7185;
+}
+
+.notificacion-error .notificacion-contenido span {
+  color: #ffe4e6;
+}
+
+/* BOTÓN CERRAR */
+
+.notificacion-flotante .notificacion-cerrar {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+
+  flex-shrink: 0;
+  padding: 0 3px;
+
+  font-size: 23px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.notificacion-flotante .notificacion-cerrar:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ANIMACIÓN */
+
+@keyframes entrarNotificacion {
+  from {
+    opacity: 0;
+    transform: translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================
+   MODO OSCURO
+========================================== */
+
+:host-context(.tema-oscuro) .pagina {
+  background: #091725;
+  color: #e8f1fa;
+}
+
+:host-context(.tema-oscuro) .panel {
+  background: #172f46;
+  color: #e8f1fa;
+  border: 1px solid #36566e;
+}
+
+:host-context(.tema-oscuro) h1,
+:host-context(.tema-oscuro) h2,
+:host-context(.tema-oscuro) h3 {
+  color: #f5f9ff;
+}
+
+:host-context(.tema-oscuro) th {
+  background: #244b68;
+  color: #ffce63;
+}
+
+:host-context(.tema-oscuro) td {
+  color: #e8f1fa;
+  border-bottom-color: #36566e;
+}
+
+:host-context(.tema-oscuro) select,
+:host-context(.tema-oscuro) input,
+:host-context(.tema-oscuro) textarea {
+  background: #10283d;
+  color: #ffffff;
+  border-color: #56748e;
+}
+
+:host-context(.tema-oscuro) .texto-ayuda {
+  color: #d0e2ef;
+}
+
+:host-context(.tema-oscuro) .exito {
+  color: #86efac;
+}
+
+:host-context(.tema-oscuro) .estado-cancelada-texto {
+  color: #fca5a5;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 600px) {
+
+  .pagina {
+    padding: 15px;
+  }
+
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .detalle-encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .acciones {
+    flex-direction: column;
+  }
+
+  .acciones button {
+    width: 100%;
+  }
+
+  .notificacion-flotante {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+  }
+}

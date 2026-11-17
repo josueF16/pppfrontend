@@ -1,0 +1,114 @@
+
+.pagina {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f3f6fb;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+h1, h2 {
+  color: #123f76;
+}
+
+.panel {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 12px #00000010;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+select {
+  padding: 12px;
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  display: block;
+  margin-bottom: 18px;
+}
+
+button {
+  padding: 12px 18px;
+  background: #145595;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background: #edf3fa;
+  color: #123f76;
+}
+
+.estado {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.aprobada {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.rechazada {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.pendiente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.exito {
+  color: #166534;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+@media (max-width: 600px) {
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

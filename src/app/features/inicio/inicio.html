@@ -1,0 +1,285 @@
+
+<div class="dashboard">
+
+  <!-- ENCABEZADO -->
+  <header class="topbar">
+
+    <div>
+      <p class="eyebrow">Universidad Peruana Unión</p>
+      <h1>Sistema de Gestión PPP</h1>
+      <p class="subtitle">
+        Panel de Prácticas Preprofesionales
+      </p>
+    </div>
+
+    <div class="topbar-actions">
+
+      <span class="badge rol">
+        {{ usuario?.rol }}
+      </span>
+
+      <button
+        type="button"
+        class="btn btn-tema"
+        (click)="alternarTema()"
+        [attr.aria-pressed]="modoOscuro">
+
+        @if (modoOscuro) {
+          ☀️ Modo claro
+        } @else {
+          🌙 Modo oscuro
+        }
+
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline"
+        (click)="salir()">
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- BIENVENIDA -->
+  <section class="hero card">
+
+    <div class="hero-informacion">
+
+      <h2>
+        Bienvenido, {{ usuario?.nombres }}
+        {{ usuario?.apellidos }}
+      </h2>
+
+      @if (usuario?.rol === 'ESTUDIANTE') {
+        <p>
+          Consulta tus requisitos, empresas disponibles,
+          solicitudes, cartas y convenios PPP.
+        </p>
+      }
+
+      @if (usuario?.rol === 'COORDINADOR_PPP') {
+        <p>
+          Administra las solicitudes de prácticas,
+          realiza las validaciones y consulta los
+          documentos registrados.
+        </p>
+      }
+
+      @if (usuario?.rol === 'SECRETARIA') {
+        <p>
+          Gestiona la generación, revisión y envío
+          de cartas de presentación PPP.
+        </p>
+      }
+
+    </div>
+
+    <!-- TIEMPO DE SESIÓN Y ESTADO -->
+    <div class="estado-box">
+
+      <div
+        class="tiempo-sesion"
+        [class.tiempo-sesion-alerta]="avisoExpiracion"
+        [attr.title]="segundosRestantes === null
+          ? 'No se pudo leer la expiración del token JWT'
+          : 'Tiempo restante hasta el vencimiento del JWT'">
+
+        <span class="tiempo-sesion-icono" aria-hidden="true">
+          ◷
+        </span>
+
+        <div class="tiempo-sesion-datos">
+          <span class="tiempo-sesion-etiqueta">
+            Sesión restante
+          </span>
+
+          <strong class="tiempo-sesion-valor">
+            {{ tiempoRestante }}
+          </strong>
+        </div>
+
+      </div>
+
+      <span
+        class="badge estado"
+        [class.activo]="usuario?.estado === 'ACTIVO'">
+        {{ usuario?.estado }}
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- INFORMACIÓN DEL USUARIO -->
+  <section class="resumen">
+
+    <article class="info-card">
+      <span class="info-label">
+        Correo institucional
+      </span>
+      <strong>{{ usuario?.correo }}</strong>
+    </article>
+
+    <article class="info-card">
+      <span class="info-label">
+        Rol asignado
+      </span>
+      <strong>{{ usuario?.rol }}</strong>
+    </article>
+
+    <article class="info-card">
+      <span class="info-label">
+        Estado de cuenta
+      </span>
+      <strong>{{ usuario?.estado }}</strong>
+    </article>
+
+  </section>
+
+  <!-- MÓDULOS DEL ESTUDIANTE -->
+  @if (usuario?.rol === 'ESTUDIANTE') {
+
+    <h2 class="section-title">
+      Módulos del estudiante
+    </h2>
+
+    <section class="modulos">
+
+      <article class="modulo-card">
+        <h3>Requisitos PPP</h3>
+        <p>
+          Consulta los requisitos necesarios para
+          realizar tus prácticas preprofesionales.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verRequisitos()">
+          Ver requisitos
+        </button>
+      </article>
+
+      <article class="modulo-card">
+        <h3>Empresas PPP</h3>
+        <p>
+          Consulta las empresas disponibles,
+          recomendadas y archivadas.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verEmpresas()">
+          Consultar empresas
+        </button>
+      </article>
+
+      <article class="modulo-card">
+        <h3>Mis solicitudes</h3>
+        <p>
+          Registra solicitudes de prácticas y
+          consulta su estado de aprobación.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verSolicitudes()">
+          Ver mis solicitudes
+        </button>
+      </article>
+
+      <article class="modulo-card">
+        <h3>Registro de cartas</h3>
+        <p>
+          Consulta cartas recibidas y registra
+          documentos y convenios PPP.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verRegistroCartas()">
+          Gestionar mis documentos
+        </button>
+      </article>
+
+    </section>
+  }
+
+  <!-- MÓDULOS DEL COORDINADOR -->
+  @if (usuario?.rol === 'COORDINADOR_PPP') {
+
+    <h2 class="section-title">
+      Módulos del coordinador
+    </h2>
+
+    <section class="modulos">
+
+      <article class="modulo-card">
+        <h3>Validación de solicitudes</h3>
+        <p>
+          Revisa las solicitudes de los estudiantes,
+          aprueba, rechaza y registra observaciones.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verValidacionSolicitudes()">
+          Validar solicitudes
+        </button>
+      </article>
+
+      <article class="modulo-card">
+        <h3>Documentos Google Drive</h3>
+        <p>
+          Consulta los documentos asociados
+          a las solicitudes aprobadas.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verDocumentosDrive()">
+          Consultar documentos
+        </button>
+      </article>
+
+    </section>
+  }
+
+  <!-- MÓDULOS DE SECRETARÍA -->
+  @if (usuario?.rol === 'SECRETARIA') {
+
+    <h2 class="section-title">
+      Módulos de Secretaría
+    </h2>
+
+    <section class="modulos">
+
+      <article class="modulo-card">
+        <h3>Cartas de presentación</h3>
+        <p>
+          Genera borradores, revisa el contenido,
+          guarda cambios y registra el envío
+          de cartas de presentación.
+        </p>
+
+        <button
+          type="button"
+          class="btn"
+          (click)="verCartasPresentacion()">
+          Gestionar cartas
+        </button>
+      </article>
+
+    </section>
+  }
+
+</div>

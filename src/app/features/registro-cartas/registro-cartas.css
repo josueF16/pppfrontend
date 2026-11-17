@@ -1,0 +1,506 @@
+
+/* ==========================================
+   REGISTRO DE CARTAS PPP - UPeU
+========================================== */
+
+/* PÁGINA PRINCIPAL */
+
+.pagina {
+  min-height: 100vh;
+  padding: 35px;
+  box-sizing: border-box;
+  background: #f3f6fb;
+  color: #17324d;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ENCABEZADO */
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.encabezado h1 {
+  margin: 0 0 10px;
+}
+
+.encabezado p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: #123f76;
+}
+
+/* PANELES */
+
+.panel {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+/* ==========================================
+   CARTAS DE PRESENTACIÓN RECIBIDAS
+========================================== */
+
+.carta,
+.documento,
+.convenio {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 18px;
+  margin: 15px 0;
+}
+
+.carta-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.carta-encabezado h3 {
+  margin: 0;
+}
+
+.carta-datos p {
+  margin: 9px 0;
+  line-height: 1.5;
+}
+
+.estado-carta {
+  display: inline-block;
+  padding: 7px 13px;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   VISTA PREVIA DE LA CARTA
+========================================== */
+
+.vista-carta {
+  margin-top: 15px;
+}
+
+.vista-carta > summary {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #145595;
+  color: #ffffff;
+  border: 1px solid #397fbd;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vista-carta > summary:hover {
+  background: #0b4279;
+  color: #ffffff;
+}
+
+.vista-carta > summary:focus-visible {
+  outline: 3px solid #f8a900;
+  outline-offset: 3px;
+}
+
+/* DOCUMENTO VISUALIZADO */
+
+.documento-vista {
+  margin-top: 16px;
+  padding: 24px;
+  background: #f8fafc;
+  color: #172b4d;
+  border: 1px solid #d6e1ee;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.documento-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #dbe6f1;
+}
+
+.documento-etiqueta {
+  color: #123f76;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+.documento-numero {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* CONTENIDO LEGIBLE EN AMBOS TEMAS */
+
+.pagina .panel .carta .documento-vista pre.contenido-carta {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 0;
+
+  background: #f8fafc;
+  color: #172b4d;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.8;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+
+  border: none;
+  border-radius: 0;
+}
+
+/* PIE DE LA VISTA PREVIA */
+
+.documento-pie {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 14px;
+  margin-top: 20px;
+  border-top: 1px solid #dbe6f1;
+}
+
+.documento-pie span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+/* ==========================================
+   CU09 - BOTÓN DESCARGAR PDF
+========================================== */
+
+.descargar-carta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  margin-top: 16px;
+  padding: 11px 18px;
+
+  background: #15803d;
+  color: #ffffff;
+
+  border: 1px solid #166534;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.descargar-carta::before {
+  content: "↓";
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.descargar-carta:hover:not(:disabled) {
+  background: #166534;
+  color: #ffffff;
+}
+
+.descargar-carta:focus-visible {
+  outline: 3px solid #f8a900;
+  outline-offset: 3px;
+}
+
+.descargar-carta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   DOCUMENTOS DE GOOGLE DRIVE
+========================================== */
+
+.documentos {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  );
+  gap: 15px;
+}
+
+.documento h3 {
+  margin-top: 0;
+}
+
+.documento p {
+  overflow-wrap: anywhere;
+}
+
+.documento a {
+  display: inline-block;
+  padding: 9px 13px;
+  background: #145595;
+  color: #ffffff;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.documento a:hover {
+  background: #0b4279;
+  color: #ffffff;
+}
+
+/* ==========================================
+   FORMULARIOS
+========================================== */
+
+label {
+  display: block;
+  margin: 15px 0 8px;
+  font-weight: 700;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+
+  padding: 12px;
+  margin-bottom: 15px;
+
+  background: #ffffff;
+  color: #17324d;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #145595;
+  outline-offset: 1px;
+}
+
+/* ==========================================
+   BOTONES GENERALES
+========================================== */
+
+button {
+  background: #145595;
+  color: #ffffff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button:hover:not(:disabled) {
+  background: #0b4279;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* CONSERVAR ESTILO DEL BOTÓN DE DESCARGA */
+
+button.descargar-carta {
+  background: #15803d;
+}
+
+button.descargar-carta:hover:not(:disabled) {
+  background: #166534;
+}
+
+/* ==========================================
+   MENSAJES DEL SISTEMA
+========================================== */
+
+.exito {
+  color: #166534;
+  font-weight: 600;
+}
+
+.error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.nota {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 15px;
+  line-height: 1.6;
+}
+
+/* ==========================================
+   MODO OSCURO - UPeU
+========================================== */
+
+:host-context(.tema-oscuro) .pagina {
+  background: #091725;
+  color: #e8f1fa;
+}
+
+:host-context(.tema-oscuro) .panel {
+  background: #172f46;
+  color: #e8f1fa;
+  border: 1px solid #36566e;
+}
+
+:host-context(.tema-oscuro) h1,
+:host-context(.tema-oscuro) h2,
+:host-context(.tema-oscuro) h3 {
+  color: #f5f9ff;
+}
+
+:host-context(.tema-oscuro) .carta,
+:host-context(.tema-oscuro) .documento,
+:host-context(.tema-oscuro) .convenio {
+  border-color: #36566e;
+}
+
+:host-context(.tema-oscuro) input,
+:host-context(.tema-oscuro) select {
+  background: #10283d;
+  color: #ffffff;
+  border-color: #56748e;
+}
+
+:host-context(.tema-oscuro) .nota {
+  color: #cbd5e1;
+}
+
+:host-context(.tema-oscuro) .exito {
+  color: #86efac;
+}
+
+:host-context(.tema-oscuro) .error {
+  color: #fca5a5;
+}
+
+/* MANTENER HOJA BLANCA CON LETRAS OSCURAS */
+
+:host-context(.tema-oscuro) .documento-vista {
+  background: #f8fafc;
+  color: #172b4d;
+}
+
+:host-context(.tema-oscuro) .documento-etiqueta {
+  color: #123f76;
+}
+
+:host-context(.tema-oscuro) .documento-numero {
+  color: #475569;
+}
+
+:host-context(.tema-oscuro)
+.pagina .panel .carta .documento-vista pre.contenido-carta {
+  background: #f8fafc;
+  color: #172b4d;
+}
+
+:host-context(.tema-oscuro) .documento-pie span {
+  color: #64748b;
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+========================================== */
+
+@media (max-width: 600px) {
+
+  .pagina {
+    padding: 15px;
+  }
+
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+
+  .carta-encabezado {
+    align-items: flex-start;
+  }
+
+  .documento-vista {
+    padding: 16px;
+  }
+
+  .documento-cabecera,
+  .documento-pie {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pagina .panel .carta .documento-vista pre.contenido-carta {
+    font-size: 13px;
+  }
+
+  .descargar-carta {
+    width: 100%;
+  }
+
+  .documentos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .descargar-carta {
+    transition: none;
+  }
+}

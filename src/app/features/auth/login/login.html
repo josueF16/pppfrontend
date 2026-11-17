@@ -1,0 +1,52 @@
+
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="encabezado">
+      <h1>UPeU</h1>
+      <h2>Prácticas Preprofesionales</h2>
+      <p>Sistema de Gestión PPP</p>
+    </div>
+
+    <form (ngSubmit)="ingresar()">
+
+      <label for="correo">Correo institucional</label>
+      <input
+        id="correo"
+        type="email"
+        name="correo"
+        [(ngModel)]="correo"
+        placeholder="correo@upeu.edu.pe"
+        autocomplete="username"
+        required
+      />
+
+      <label for="clave">Contraseña</label>
+      <input
+        id="clave"
+        type="password"
+        name="clave"
+        [(ngModel)]="clave"
+        placeholder="Ingrese su contraseña"
+        autocomplete="current-password"
+        required
+      />
+
+      @if (error) {
+        <p class="error" role="alert">{{ error }}</p>
+      }
+
+      <button
+        type="submit"
+        [disabled]="cargando || !correo || !clave">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+      </button>
+
+    </form>
+
+    <div class="pie">
+      Universidad Peruana Unión
+    </div>
+
+  </div>
+</div>

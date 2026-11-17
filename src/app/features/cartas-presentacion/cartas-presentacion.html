@@ -1,0 +1,278 @@
+
+<div class="pagina">
+
+  <!-- ENCABEZADO -->
+  <header class="encabezado">
+    <div>
+      <h1>Cartas de Presentación PPP</h1>
+      <p>Panel de Secretaría</p>
+    </div>
+
+    <button
+      type="button"
+      (click)="volver()">
+      Volver al inicio
+    </button>
+  </header>
+
+  <!-- NOTIFICACIÓN FLOTANTE -->
+  @if (mensaje || error) {
+    <div
+      class="notificacion-flotante"
+      [class.notificacion-error]="!!error"
+      [attr.role]="error ? 'alert' : 'status'"
+      [attr.aria-live]="error ? 'assertive' : 'polite'">
+
+      <span
+        class="notificacion-icono"
+        aria-hidden="true">
+        {{ error ? '⚠️' : '✅' }}
+      </span>
+
+      <div class="notificacion-contenido">
+        <strong>
+          {{ error ? 'Ocurrió un error' : 'Operación exitosa' }}
+        </strong>
+
+        <span>
+          {{ error || mensaje }}
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="notificacion-cerrar"
+        aria-label="Cerrar notificación"
+        (click)="cerrarNotificacion()">
+        ×
+      </button>
+
+    </div>
+  }
+
+  <!-- SOLICITUDES APROBADAS -->
+  <section class="panel">
+
+    <h2>Solicitudes aprobadas</h2>
+
+    @if (cargando) {
+      <p>Cargando solicitudes...</p>
+    } @else if (solicitudes.length === 0) {
+      <p>No existen solicitudes aprobadas.</p>
+    } @else {
+
+      <div class="tabla-contenedor">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Solicitud</th>
+              <th>Estudiante</th>
+              <th>Empresa</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (s of solicitudes; track s.idSolicitud) {
+              <tr>
+                <td>{{ s.idSolicitud }}</td>
+                <td>{{ s.idUsuario }}</td>
+                <td>{{ s.idEmpresa }}</td>
+                <td>
+                  <span class="estado-aprobada">
+                    {{ s.estado }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    }
+  </section>
+
+  <!-- CREAR CARTA -->
+  <section class="panel">
+
+    <h2>Crear carta de presentación</h2>
+
+    <p class="texto-ayuda">
+      El modelo mostrado es de prueba y no constituye
+      el formato oficial de la UPeU.
+    </p>
+
+    <label for="solicitud">
+      Solicitud aprobada
+    </label>
+
+    <select
+      id="solicitud"
+      name="solicitud"
+      [(ngModel)]="idSolicitud">
+
+      <option [ngValue]="null">
+        Seleccione una solicitud
+      </option>
+
+      @for (s of solicitudes; track s.idSolicitud) {
+        <option [ngValue]="s.idSolicitud">
+          Solicitud N.º {{ s.idSolicitud }}
+        </option>
+      }
+
+    </select>
+
+    <label for="modelo">
+      Modelo de carta
+    </label>
+
+    <textarea
+      id="modelo"
+      name="modelo"
+      [(ngModel)]="modelo"
+      rows="9">
+    </textarea>
+
+    <button
+      type="button"
+      [disabled]="idSolicitud === null || !modelo.trim() || procesando"
+      (click)="crearCarta()">
+      {{ procesando ? 'Procesando...' : 'Crear borrador' }}
+    </button>
+
+  </section>
+
+  <!-- CONSULTAR CARTA EXISTENTE -->
+  <section class="panel">
+
+    <h2>Consultar carta existente</h2>
+
+    <label for="idCarta">
+      ID de la carta
+    </label>
+
+    <input
+      id="idCarta"
+      name="idCarta"
+      type="number"
+      min="1"
+      [(ngModel)]="idCartaConsultar"
+      placeholder="Ejemplo: 1"
+    />
+
+    <button
+      type="button"
+      [disabled]="idCartaConsultar === null || idCartaConsultar < 1 || procesando"
+      (click)="consultarCarta()">
+      Consultar carta
+    </button>
+
+  </section>
+
+  <!-- DETALLE DE LA CARTA -->
+  @if (carta) {
+
+    <section class="panel detalle-carta">
+
+      <div class="detalle-encabezado">
+
+        <h2>
+          Carta N.º {{ carta.idCarta }}
+        </h2>
+
+        <span
+          class="estado-carta"
+          [class.estado-borrador]="carta.estado === 'BORRADOR'"
+          [class.estado-enviada]="carta.estado === 'ENVIADA'"
+          [class.estado-cancelada]="carta.estado === 'CANCELADA'">
+          {{ carta.estado }}
+        </span>
+
+      </div>
+
+      <div class="datos-carta">
+
+        <p>
+          <strong>Solicitud:</strong>
+          {{ carta.idSolicitud }}
+        </p>
+
+        <p>
+          <strong>Fecha de creación:</strong>
+          {{ carta.fechaCreacion }}
+        </p>
+
+        @if (carta.fechaEnvio) {
+          <p>
+            <strong>Fecha de envío:</strong>
+            {{ carta.fechaEnvio }}
+          </p>
+        }
+
+      </div>
+
+      <h3>Contenido de la carta</h3>
+
+      <textarea
+        class="contenido"
+        name="contenido"
+        [(ngModel)]="contenido"
+        [readOnly]="carta.estado !== 'BORRADOR'"
+        rows="15">
+      </textarea>
+
+      <!-- ACCIONES DEL BORRADOR -->
+      @if (carta.estado === 'BORRADOR') {
+
+        <div class="acciones">
+
+          <button
+            type="button"
+            [disabled]="procesando || !contenido.trim()"
+            (click)="guardarCarta()">
+            Guardar cambios
+          </button>
+
+          <button
+            type="button"
+            class="enviar"
+            [disabled]="procesando"
+            (click)="enviarCarta()">
+            Enviar carta
+          </button>
+
+          <button
+            type="button"
+            class="cancelar"
+            [disabled]="procesando"
+            (click)="cancelarCarta()">
+            Cancelar borrador
+          </button>
+
+        </div>
+      }
+
+      <!-- CARTA ENVIADA -->
+      @if (carta.estado === 'ENVIADA') {
+
+        <p class="exito">
+          Carta enviada y disponible para consulta
+          dentro del sistema PPP.
+        </p>
+
+      }
+
+      <!-- CARTA CANCELADA -->
+      @if (carta.estado === 'CANCELADA') {
+
+        <p class="estado-cancelada-texto">
+          Este borrador fue cancelado.
+        </p>
+
+      }
+
+    </section>
+  }
+
+</div>

@@ -1,0 +1,127 @@
+
+<div class="pagina">
+
+  <header class="encabezado">
+    <div>
+      <h1>Consulta de Empresas PPP</h1>
+      <p>
+        Consulta las empresas disponibles para
+        tus prácticas preprofesionales.
+      </p>
+    </div>
+
+    <button (click)="volver()">
+      Volver al inicio
+    </button>
+  </header>
+
+  <nav class="filtros">
+    <button
+      [class.activo]="vista === 'todas'"
+      (click)="cargar('todas')">
+      Todas las empresas
+    </button>
+
+    <button
+      [class.activo]="vista === 'recomendadas'"
+      (click)="cargar('recomendadas')">
+      Recomendadas
+    </button>
+
+    <button
+      [class.activo]="vista === 'archivadas'"
+      (click)="cargar('archivadas')">
+      Archivadas
+    </button>
+  </nav>
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  @if (cargando) {
+    <p>Cargando empresas...</p>
+  } @else if (empresas.length === 0) {
+    <div class="vacio">
+      No hay empresas registradas en esta sección.
+    </div>
+  } @else {
+    <div class="lista">
+      @for (empresa of empresas; track empresa.idEmpresa) {
+        <article class="empresa">
+
+          <div class="titulo">
+            <h2>{{ empresa.nombre }}</h2>
+
+            @if (empresa.recomendada === 'S') {
+              <span class="etiqueta">
+                Recomendada
+              </span>
+            }
+          </div>
+
+          <p>{{ empresa.descripcion }}</p>
+
+          <p>
+            <strong>Dirección:</strong>
+            {{ empresa.direccion }}
+          </p>
+
+          <div class="acciones">
+            <button (click)="verDetalles(empresa.idEmpresa)">
+              Ver detalles
+            </button>
+
+            @if (vista === 'archivadas') {
+              <button
+                class="secundario"
+                (click)="desarchivar(empresa.idEmpresa)">
+                Quitar de archivadas
+              </button>
+            } @else {
+              <button
+                class="secundario"
+                (click)="archivar(empresa.idEmpresa)">
+                Archivar empresa
+              </button>
+            }
+          </div>
+
+        </article>
+      }
+    </div>
+  }
+
+  @if (detalle) {
+    <section class="detalle">
+      <h2>Información de la empresa</h2>
+
+      <h3>{{ detalle.nombre }}</h3>
+
+      <p>
+        <strong>Descripción:</strong>
+        {{ detalle.descripcion }}
+      </p>
+
+      <p>
+        <strong>Dirección:</strong>
+        {{ detalle.direccion }}
+      </p>
+
+      <p>
+        <strong>Contacto:</strong>
+        {{ detalle.contacto }}
+      </p>
+
+      <p>
+        <strong>Reglamento:</strong>
+        {{ detalle.reglamento }}
+      </p>
+
+      <button (click)="detalle = null">
+        Cerrar detalles
+      </button>
+    </section>
+  }
+
+</div>

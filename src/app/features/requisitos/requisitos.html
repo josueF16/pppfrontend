@@ -1,0 +1,36 @@
+
+<div class="pagina">
+  <header class="encabezado">
+    <div>
+      <h1>Requisitos PPP</h1>
+      <p>Consulta los requisitos para tus prácticas preprofesionales.</p>
+    </div>
+    <button (click)="volver()">Volver al inicio</button>
+  </header>
+
+  @if (cargando) {
+    <p>Cargando requisitos...</p>
+  } @else if (error) {
+    <p class="error">{{ error }}</p>
+  } @else if (requisitos.length === 0) {
+    <div class="vacio">
+      <h3>No hay requisitos registrados</h3>
+      <p>Aún no se han cargado requisitos en el sistema.</p>
+    </div>
+  } @else {
+    <div class="lista">
+      @for (r of requisitos; track r.idRequisito) {
+        <article class="requisito">
+          <div class="fila">
+            <h3>{{ r.nombre }}</h3>
+            <span [class.cumple]="r.estado === 'CUMPLE'"
+                  [class.pendiente]="r.estado === 'PENDIENTE'">
+              {{ r.estado }}
+            </span>
+          </div>
+          <p>{{ r.descripcion }}</p>
+        </article>
+      }
+    </div>
+  }
+</div>

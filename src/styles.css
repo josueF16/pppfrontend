@@ -1,0 +1,450 @@
+
+/* ======================================
+   MODO OSCURO - SISTEMA PPP UPeU
+====================================== */
+
+html.tema-oscuro {
+  color-scheme: dark;
+}
+
+html.tema-oscuro body {
+  background: #091321;
+  color: #eaf2fc;
+}
+
+/* PANEL PRINCIPAL */
+
+html.tema-oscuro app-inicio {
+  background: linear-gradient(
+    135deg,
+    #081321,
+    #10253a
+  );
+  color: #eaf2fc;
+}
+
+html.tema-oscuro app-inicio .topbar {
+  background: linear-gradient(
+    110deg,
+    #061628,
+    #103858
+  );
+}
+
+html.tema-oscuro app-inicio .hero {
+  background: linear-gradient(
+    115deg,
+    #10283e,
+    #17496b
+  );
+}
+
+/* RESUMEN DEL USUARIO */
+
+html.tema-oscuro app-inicio .info-card,
+html.tema-oscuro app-inicio .info-card:nth-child(2),
+html.tema-oscuro app-inicio .info-card:nth-child(3) {
+  background: linear-gradient(
+    135deg,
+    #172f46,
+    #203c54
+  );
+  border-color: #36546d;
+}
+
+html.tema-oscuro app-inicio .info-label {
+  color: #b6cee0;
+}
+
+html.tema-oscuro app-inicio .info-card strong {
+  color: #ffffff;
+}
+
+/* TARJETAS DE MODULOS */
+
+html.tema-oscuro app-inicio .modulo-card,
+html.tema-oscuro app-inicio .modulo-card:nth-child(even) {
+  background: linear-gradient(
+    145deg,
+    #142c42,
+    #203f59
+  );
+  border-color: #36546d;
+}
+
+html.tema-oscuro app-inicio .modulo-card h3,
+html.tema-oscuro app-inicio .section-title {
+  color: #f4f8ff;
+}
+
+html.tema-oscuro app-inicio .modulo-card p {
+  color: #bdd2e4;
+}
+
+/* PANTALLAS DE LOS MODULOS */
+
+html.tema-oscuro .pagina {
+  background: #091725;
+  color: #eaf2fc;
+}
+
+html.tema-oscuro .panel,
+html.tema-oscuro .empresa,
+html.tema-oscuro .requisito,
+html.tema-oscuro .vacio,
+html.tema-oscuro .detalle,
+html.tema-oscuro .carta,
+html.tema-oscuro .documento,
+html.tema-oscuro .convenio {
+  background: #162c42;
+  color: #eaf2fc;
+  border-color: #38546d;
+}
+
+/* TITULOS */
+
+html.tema-oscuro .pagina h1,
+html.tema-oscuro .pagina h2,
+html.tema-oscuro .pagina h3 {
+  color: #f3f7fc;
+}
+
+/* TABLAS */
+
+html.tema-oscuro .pagina th {
+  background: #24445f;
+  color: #ffca57;
+}
+
+html.tema-oscuro .pagina td {
+  color: #e4eff9;
+  border-bottom-color: #38516b;
+}
+
+/* FORMULARIOS */
+
+html.tema-oscuro .pagina input,
+html.tema-oscuro .pagina select,
+html.tema-oscuro .pagina textarea {
+  background: #0d2033;
+  color: #ffffff;
+  border-color: #45627e;
+}
+
+html.tema-oscuro .pagina input::placeholder,
+html.tema-oscuro .pagina textarea::placeholder {
+  color: #a9bfd1;
+}
+
+/* TEXTOS DE AYUDA Y MENSAJES */
+
+html.tema-oscuro .pagina .nota {
+  color: #bbcfde;
+}
+
+html.tema-oscuro .pagina .exito {
+  color: #86efac;
+}
+
+html.tema-oscuro .pagina .error {
+  color: #fca5a5;
+}
+
+/* ENLACES */
+
+html.tema-oscuro .pagina a {
+  color: #91caff;
+}
+
+/* BOTON PARA CAMBIAR DE TEMA */
+
+app-inicio .btn-tema {
+  background: #f8a900;
+  color: #003366;
+  border: 1px solid #f8a900;
+}
+
+app-inicio .btn-tema:hover {
+  background: #ffd05c;
+  color: #003366;
+}
+
+
+/* ==========================================
+   CORRECCION DE CONTRASTE - MODO OSCURO UPeU
+========================================== */
+
+/* DATOS DEL USUARIO */
+
+html.tema-oscuro app-inicio .info-card strong {
+  color: #ffffff !important;
+}
+
+html.tema-oscuro app-inicio .info-label {
+  color: #c1d9ee !important;
+}
+
+/* TITULOS DE LOS MODULOS */
+
+html.tema-oscuro app-inicio .modulo-card h3 {
+  color: #ffffff !important;
+}
+
+/* DESCRIPCIONES DE LOS MODULOS */
+
+html.tema-oscuro app-inicio .modulo-card p {
+  color: #d5e5f3 !important;
+}
+
+/* TITULO DE SECCION */
+
+html.tema-oscuro app-inicio .section-title {
+  color: #ffffff !important;
+}
+
+/* FONDO DE LAS TARJETAS */
+
+html.tema-oscuro app-inicio .modulo-card {
+  background: linear-gradient(
+    145deg,
+    #173650,
+    #203e58
+  ) !important;
+
+  border-color: #42627d !important;
+}
+
+/* TARJETAS DE INFORMACION */
+
+html.tema-oscuro app-inicio .info-card {
+  background: #1b3852 !important;
+  border-color: #42627d !important;
+}
+
+/* BOTON DEL TEMA */
+
+html.tema-oscuro app-inicio .btn-tema {
+  background: #f8a900 !important;
+  color: #003366 !important;
+  border-color: #f8a900 !important;
+}
+
+html.tema-oscuro app-inicio .btn-tema:hover {
+  background: #ffca4d !important;
+}
+
+/* BOTONES DE LOS MODULOS */
+
+html.tema-oscuro app-inicio .modulo-card .btn {
+  background: #0a6097 !important;
+  color: #ffffff !important;
+  border-color: #438cb7 !important;
+}
+
+html.tema-oscuro app-inicio .modulo-card .btn:hover {
+  background: #137bb6 !important;
+}
+
+
+/* ==========================================
+   ESTILO INSTITUCIONAL GLOBAL - UPeU
+   MODULOS DEL SISTEMA PPP
+========================================== */
+
+/* FONDO DE LOS MODULOS - MODO CLARO */
+
+html:not(.tema-oscuro) body .pagina {
+  background: linear-gradient(
+    145deg,
+    #dce9f5,
+    #edf5fc
+  );
+  color: #17324d;
+  min-height: 100vh;
+}
+
+/* ENCABEZADOS */
+
+body .pagina .encabezado {
+  padding: 22px 28px;
+  border-radius: 14px;
+  background: linear-gradient(
+    110deg,
+    #003366,
+    #0b548a
+  );
+  border-bottom: 4px solid #f8a900;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 18px rgba(0, 51, 102, 0.13);
+}
+
+body .pagina .encabezado h1 {
+  color: #ffffff;
+  font-size: 27px;
+  margin: 0 0 10px;
+}
+
+body .pagina .encabezado p {
+  color: #dbeaf6;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* PANELES Y TARJETAS */
+
+html:not(.tema-oscuro) body .pagina .panel,
+html:not(.tema-oscuro) body .pagina .empresa,
+html:not(.tema-oscuro) body .pagina .requisito,
+html:not(.tema-oscuro) body .pagina .detalle,
+html:not(.tema-oscuro) body .pagina .vacio,
+html:not(.tema-oscuro) body .pagina .carta,
+html:not(.tema-oscuro) body .pagina .documento,
+html:not(.tema-oscuro) body .pagina .convenio {
+  background: #f7fbff;
+  border: 1px solid #c5dbec;
+  border-radius: 14px;
+  box-shadow: 0 5px 16px rgba(0, 51, 102, 0.07);
+}
+
+/* TITULOS DE LOS MODULOS */
+
+html:not(.tema-oscuro) body .pagina h2,
+html:not(.tema-oscuro) body .pagina h3 {
+  color: #003366;
+}
+
+/* BOTONES */
+
+body .pagina button {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.2s ease,
+              transform 0.2s ease;
+}
+
+body .pagina button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+body .pagina button:focus-visible,
+body .pagina a:focus-visible {
+  outline: 3px solid #f8a900;
+  outline-offset: 3px;
+}
+
+/* BOTONES DE ACCIONES ESPECIALES */
+
+body .pagina button.aprobar,
+body .pagina button.enviar {
+  background: #15803d;
+  color: #ffffff;
+}
+
+body .pagina button.rechazar,
+body .pagina button.cancelar {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+/* TABLAS */
+
+body .pagina table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+html:not(.tema-oscuro) body .pagina th {
+  background: #d4e7f5;
+  color: #003366;
+  font-weight: 700;
+  padding: 14px;
+}
+
+body .pagina td {
+  padding: 14px;
+}
+
+/* FORMULARIOS */
+
+body .pagina input,
+body .pagina select,
+body .pagina textarea {
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+html:not(.tema-oscuro) body .pagina input,
+html:not(.tema-oscuro) body .pagina select,
+html:not(.tema-oscuro) body .pagina textarea {
+  background: #ffffff;
+  color: #17324d;
+  border: 1px solid #adc9df;
+}
+
+/* ==========================================
+   AJUSTES PARA MODO OSCURO
+========================================== */
+
+html.tema-oscuro body .pagina {
+  background: #091725;
+  color: #e8f1fa;
+}
+
+html.tema-oscuro body .pagina .encabezado {
+  background: linear-gradient(
+    110deg,
+    #071a2d,
+    #143d5d
+  );
+  border-bottom-color: #f8a900;
+}
+
+html.tema-oscuro body .pagina .panel,
+html.tema-oscuro body .pagina .empresa,
+html.tema-oscuro body .pagina .requisito,
+html.tema-oscuro body .pagina .detalle,
+html.tema-oscuro body .pagina .vacio,
+html.tema-oscuro body .pagina .carta,
+html.tema-oscuro body .pagina .documento,
+html.tema-oscuro body .pagina .convenio {
+  background: #172f46;
+  color: #e8f1fa;
+  border: 1px solid #36566e;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+}
+
+html.tema-oscuro body .pagina h2,
+html.tema-oscuro body .pagina h3 {
+  color: #f5f9ff;
+}
+
+html.tema-oscuro body .pagina th {
+  background: #244b68;
+  color: #ffce63;
+}
+
+html.tema-oscuro body .pagina td {
+  color: #e8f1fa;
+  border-bottom-color: #36566e;
+}
+
+html.tema-oscuro body .pagina input,
+html.tema-oscuro body .pagina select,
+html.tema-oscuro body .pagina textarea {
+  background: #10283d;
+  color: #ffffff;
+  border: 1px solid #56748e;
+}
+
+/* DISEÑO RESPONSIVO */
+
+@media (max-width: 600px) {
+  body .pagina .encabezado {
+    padding: 20px;
+  }
+
+  body .pagina .encabezado h1 {
+    font-size: 22px;
+  }
+}
